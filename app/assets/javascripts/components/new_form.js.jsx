@@ -58,13 +58,13 @@ var NewForm = createReactClass({
           <input type='text' className='form-control' name='name' placeholder='Name' ref='name' value={this.state.name} onChange={this.handleChange} />
         </div>
         <div className='form-group'>
+          <input type='date' className='form-control' name='event_date' placeholder='Event Date' ref='event_date' value={this.state.event_date} onChange={this.handleChange} />
+        </div>
+        <div className='form-group'>
           <input type='text' className='form-control' name='place' placeholder='Place' ref='place' value={this.state.place} onChange={this.handleChange} />
         </div>
         <div className='form-group'>
-          <input type='text' className='form-control' name='event_date' placeholder='Event Date' ref='event_date' value={this.state.event_date} onChange={this.handleChange} />
-        </div>
-        <div className='form-group'>
-          <input type='text' className='form-control' name='description' placeholder='description' ref='description' value={this.state.description} onChange={this.handleChange} />
+          <input type='text' className='form-control' name='description' placeholder='Description' ref='description' value={this.state.description} onChange={this.handleChange} />
         </div>
         <button type='submit' className='btn btn-primary'>Add</button>
       </form>
