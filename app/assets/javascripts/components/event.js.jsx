@@ -3,7 +3,7 @@ var Event = createReactClass({
     name: PropTypes.string,
     event_date: PropTypes.string,
     place: PropTypes.string,
-    description: PropTypes.string,
+    description: PropTypes.string
   },
 
   getInitialState: function() {
