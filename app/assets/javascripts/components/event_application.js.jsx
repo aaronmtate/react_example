@@ -1,18 +1,19 @@
 var EventApplication = createReactClass({
   getInitialState: function() {
-    return { events: [], sort: 'event_date', order: 'asc' };
+    return { events: [], sort: 'event_date', order: 'asc', page: 1, pages: 0 };
   },
 
   componentDidMount: function() {
-    this.getDataFromApi();
+    this.getDataFromApi(this.state.page);
   },
 
-  getDataFromApi: function() {
+  getDataFromApi: function(page) {
     var self = this;
     $.ajax({
       url: '/api/events',
+      data: { page: page },
       success: function(data) {
-        self.setState({ events: data });
+        self.setState({ events: data.events, pages: parseInt(data.pages), page: parseInt(data.page) });
       },
       error: function(xhr, status, error) {
         alert('Cannot get data from API: ', status, xhr, error);
@@ -54,12 +55,16 @@ var EventApplication = createReactClass({
       data: { sort_by: name, order: order },
       method: 'GET',
       success: function(data) {
-        this.setState({ events: data, sort: name, order: order });
+        this.setState({ events: data.events, sort: name, order: order });
       }.bind(this),
       error: function(xhr, status, error) {
         alert('Cannot sort events: ', status, xhr, error);
       }
     });
+  },
+
+  handleChangePage: function(page) {
+    this.getDataFromApi(page);
   },
 
   render: function() {
@@ -85,6 +90,9 @@ var EventApplication = createReactClass({
                         handleDeleteRecord={this.handleDeleteRecord}
                         handleUpdateRecord={this.handleUpdateRecord}
                         handleSortColumn={this.handleSortColumn} />
+            <Pagination page={this.state.page}
+                        pages={this.state.pages}
+                        handleChangePage={this.handleChangePage} />
           </div>
         </div>
       </div>

@@ -3,12 +3,17 @@ module Api
     before_action :set_event, only: [:update, :destroy]
 
     def index
-      render json: Event.order(sort_by + ' ' + order)
+      render json: {
+        events: Event.paginate(page: page).order(sort_by + ' ' + order),
+        page: page,
+        pages: Event.pages
+      }
     end
 
     def search
       query = params[:query]
       events = Event.where('name LIKE ? OR place LIKE ? OR description LIKE ?', "%#{query}%", "%#{query}%", "%#{query}%")
+                    .paginate(page: page)
       render json: events
     end
 
@@ -50,6 +55,10 @@ module Api
 
     def order
       %w(asc desc).include?(params[:order]) ? params[:order] : 'asc'
+    end
+
+    def page
+      params[:page] || 1
     end
   end
 end

@@ -5,7 +5,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-1.upto(10) do |i|
+1.upto(5_000) do |i|
   Event.create(
     name: "Event #{i}",
     description: "It's sample event with number #{i}",
