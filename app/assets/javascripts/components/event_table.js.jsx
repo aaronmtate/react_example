@@ -26,16 +26,16 @@ var EventTable = createReactClass({
             <th className="col-md-2 sortable">
               <SortColumn name='name' text='Name' sort={this.props.sort} order={this.props.order} handleSortColumn={this.handleSortColumn} />
             </th>
-            <th className="col-md-2 sortable">
+            <th className="col-md-1 sortable">
               <SortColumn name='event_date' text='Date' sort={this.props.sort} order={this.props.order} handleSortColumn={this.handleSortColumn} />
             </th>
             <th className="col-md-3 sortable">
               <SortColumn name='place' text='Place' sort={this.props.sort} order={this.props.order} handleSortColumn={this.handleSortColumn} />
             </th>
-            <th className="col-md-3 sortable">
+            <th className="col-md-4 sortable">
               <SortColumn name='description' text='Description' sort={this.props.sort} order={this.props.order} handleSortColumn={this.handleSortColumn} />
             </th>
-            <th className="col-md-2">Actions</th>
+            <th className="col-md-1">Actions</th>
           </tr>
         </thead>
         <tbody>
