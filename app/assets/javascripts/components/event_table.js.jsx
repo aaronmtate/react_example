@@ -1,6 +1,6 @@
 var EventTable = createReactClass({
-  handleDeleteRecord: function(event) {
-    this.props.handleDeleteRecord(event);
+  handleDeleteRecord: function() {
+    this.props.handleDeleteRecord();
   },
 
   handleUpdateRecord: function(old_event, event) {

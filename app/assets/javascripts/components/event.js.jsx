@@ -60,7 +60,7 @@ var Event = createReactClass({
       method: 'DELETE',
       url: '/api/events/' + this.props.event.id,
       success: function(data) {
-        this.props.handleDeleteRecord(this.props.event);
+        this.props.handleDeleteRecord();
       }.bind(this),
       error: function(xhr, status, error) {
         alert('Cannot delete requested record: ', xhr, status, error)

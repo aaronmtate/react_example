@@ -26,9 +26,7 @@ var EventApplication = createReactClass({
   },
 
   handleAdd: function(event) {
-    var events = this.state.events;
-    events.push(event);
-    this.setState({ events: events });
+    this.getDataFromApi(this.state.page);
   },
 
   handleUpdateRecord: function(old_event, event) {
@@ -39,10 +37,7 @@ var EventApplication = createReactClass({
   },
 
   handleDeleteRecord: function(event) {
-    var events = this.state.events.slice();
-    var index = events.indexOf(event);
-    events.splice(index, 1);
-    this.setState({ events: events });
+    this.getDataFromApi(this.state.page);
   },
 
   handleSortColumn: function(name, order) {
