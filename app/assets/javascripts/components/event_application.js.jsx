@@ -21,8 +21,8 @@ var EventApplication = createReactClass({
     });
   },
 
-  handleSearch: function(events) {
-    this.setState({ events: events });
+  handleSearch: function(data) {
+    this.setState({ events: data.events, pages: parseInt(data.pages), page: parseInt(data.page) });
   },
 
   handleAdd: function(event) {

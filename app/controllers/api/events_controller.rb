@@ -3,18 +3,13 @@ module Api
     before_action :set_event, only: [:update, :destroy]
 
     def index
+      rel = Event.all
+      rel = rel.where('name LIKE ? OR place LIKE ? OR description LIKE ?', "%#{query}%", "%#{query}%", "%#{query}%") unless query.blank?
       render json: {
-        events: Event.paginate(page: page).order(sort_by + ' ' + direction),
+        events: rel.order(sort_by + ' ' + direction).limit(per_page).offset((page - 1) * per_page),
         page: page,
-        pages: Event.pages
+        pages: (rel.count / per_page).to_i + (rel.count % per_page > 0 ? 1 : 0)
       }
-    end
-
-    def search
-      query = params[:query]
-      events = Event.where('name LIKE ? OR place LIKE ? OR description LIKE ?', "%#{query}%", "%#{query}%", "%#{query}%")
-                    .paginate(page: page)
-      render json: events
     end
 
     def create
@@ -58,7 +53,15 @@ module Api
     end
 
     def page
-      params[:page] || 1
+      (params[:page] || 1).to_i
+    end
+
+    def per_page
+      (params[:per_page] || 10).to_i
+    end
+
+    def query
+      params[:query]
     end
   end
 end
