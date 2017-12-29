@@ -7,8 +7,8 @@ var EventTable = createReactClass({
     this.props.handleUpdateRecord(old_event, event);
   },
 
-  handleSortColumn: function(name, order) {
-    this.props.handleSortColumn(name, order);
+  handleSortColumn: function(field_name, direction) {
+    this.props.handleSortColumn(field_name, direction);
   },
 
   render: function() {
@@ -24,16 +24,16 @@ var EventTable = createReactClass({
         <thead>
           <tr>
             <th className="col-md-2 sortable">
-              <SortColumn name='name' text='Name' sort={this.props.sort} order={this.props.order} handleSortColumn={this.handleSortColumn} />
+              <SortColumn name='name' text='Name' sort_by={this.props.sort_by} direction={this.props.direction} handleSortColumn={this.handleSortColumn} />
             </th>
             <th className="col-md-1 sortable">
-              <SortColumn name='event_date' text='Date' sort={this.props.sort} order={this.props.order} handleSortColumn={this.handleSortColumn} />
+              <SortColumn name='event_date' text='Date' sort_by={this.props.sort_by} direction={this.props.direction} handleSortColumn={this.handleSortColumn} />
             </th>
             <th className="col-md-3 sortable">
-              <SortColumn name='place' text='Place' sort={this.props.sort} order={this.props.order} handleSortColumn={this.handleSortColumn} />
+              <SortColumn name='place' text='Place' sort_by={this.props.sort_by} direction={this.props.direction} handleSortColumn={this.handleSortColumn} />
             </th>
             <th className="col-md-4 sortable">
-              <SortColumn name='description' text='Description' sort={this.props.sort} order={this.props.order} handleSortColumn={this.handleSortColumn} />
+              <SortColumn name='description' text='Description' sort_by={this.props.sort_by} direction={this.props.direction} handleSortColumn={this.handleSortColumn} />
             </th>
             <th className="col-md-1">Actions</th>
           </tr>

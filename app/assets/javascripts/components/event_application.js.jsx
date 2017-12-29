@@ -1,6 +1,6 @@
 var EventApplication = createReactClass({
   getInitialState: function() {
-    return { events: [], sort: 'event_date', order: 'asc', page: 1, pages: 0 };
+    return { events: [], sort_by: 'event_date', direction: 'asc', page: 1, pages: 0 };
   },
 
   componentDidMount: function() {
@@ -40,17 +40,17 @@ var EventApplication = createReactClass({
     this.getDataFromApi(this.state.page);
   },
 
-  handleSortColumn: function(name, order) {
-    if (this.state.sort != name) {
-      order = 'asc';
+  handleSortColumn: function(field_name, direction) {
+    if (this.state.sort_by != field_name) {
+      direction = 'asc';
     }
 
     $.ajax({
       url: '/api/events',
-      data: { sort_by: name, order: order },
+      data: { sort_by: field_name, direction: direction },
       method: 'GET',
       success: function(data) {
-        this.setState({ events: data.events, sort: name, order: order });
+        this.setState({ events: data.events, sort_by: field_name, direction: direction });
       }.bind(this),
       error: function(xhr, status, error) {
         alert('Cannot sort events: ', status, xhr, error);
@@ -80,8 +80,8 @@ var EventApplication = createReactClass({
         <div className = "row">
           <div className = "col-md-12">
             <EventTable events={this.state.events}
-                        sort={this.state.sort}
-                        order={this.state.order}
+                        sort_by={this.state.sort_by}
+                        direction={this.state.direction}
                         handleDeleteRecord={this.handleDeleteRecord}
                         handleUpdateRecord={this.handleUpdateRecord}
                         handleSortColumn={this.handleSortColumn} />

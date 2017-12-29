@@ -4,7 +4,7 @@ module Api
 
     def index
       render json: {
-        events: Event.paginate(page: page).order(sort_by + ' ' + order),
+        events: Event.paginate(page: page).order(sort_by + ' ' + direction),
         page: page,
         pages: Event.pages
       }
@@ -53,8 +53,8 @@ module Api
       %w(name place description event_date).include?(params[:sort_by]) ? params[:sort_by] : 'event_date'
     end
 
-    def order
-      %w(asc desc).include?(params[:order]) ? params[:order] : 'asc'
+    def direction
+      %w(asc desc).include?(params[:direction]) ? params[:direction] : 'asc'
     end
 
     def page
