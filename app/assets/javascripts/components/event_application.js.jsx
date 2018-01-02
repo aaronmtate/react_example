@@ -4,17 +4,22 @@ var EventApplication = createReactClass({
   },
 
   componentDidMount: function() {
-    this.getDataFromApi(this.state.page);
+    this.getDataFromApi();
   },
 
-  getDataFromApi: function(page) {
-    var self = this;
+  getDataFromApi: function(query, sort_by, direction, page) {
+    query = query || this.state.query;
+    sort_by = sort_by || this.state.sort_by;
+    direction = direction || this.state.direction;
+    page = page || this.state.page;
+
     $.ajax({
       url: '/api/events',
-      data: { query: this.state.query, sort_by: this.state.sort_by, direction: this.state.direction, page: page },
+      data: { query: query, sort_by: sort_by, direction: direction, page: page },
+      method: 'GET',
       success: function(data) {
-        self.setState({ events: data.events, sort_by: data.sort_by, direction: data.direction, pages: parseInt(data.pages), page: parseInt(data.page) });
-      },
+        this.setState({ events: data.events, query: query, sort_by: data.sort_by, direction: data.direction, pages: parseInt(data.pages), page: parseInt(data.page) });
+      }.bind(this),
       error: function(xhr, status, error) {
         alert('Cannot get data from API: ', status, xhr, error);
       }
@@ -22,20 +27,11 @@ var EventApplication = createReactClass({
   },
 
   handleSearch: function(query) {
-    $.ajax({
-      url: '/api/events',
-      data: { query: query, sort_by: this.state.sort_by, direction: this.state.direction, page: this.state.page },
-      success: function(data) {
-        this.setState({ events: data.events, query: query, sort_by: data.sort_by, direction: data.direction, pages: parseInt(data.pages), page: parseInt(data.page) });
-      }.bind(this),
-      error: function(xhr, status, error) {
-        alert('Search error: ', status, xhr, error);
-      }
-    });
+    this.getDataFromApi(query);
   },
 
   handleAdd: function(event) {
-    this.getDataFromApi(this.state.page);
+    this.getDataFromApi();
   },
 
   handleUpdateRecord: function(old_event, event) {
@@ -46,7 +42,7 @@ var EventApplication = createReactClass({
   },
 
   handleDeleteRecord: function(event) {
-    this.getDataFromApi(this.state.page);
+    this.getDataFromApi();
   },
 
   handleSortColumn: function(field_name, direction) {
@@ -54,21 +50,11 @@ var EventApplication = createReactClass({
       direction = 'asc';
     }
 
-    $.ajax({
-      url: '/api/events',
-      data: { query: this.state.query, sort_by: field_name, direction: direction, page: this.state.page },
-      method: 'GET',
-      success: function(data) {
-        this.setState({ events: data.events, sort_by: data.sort_by, direction: data.direction, pages: parseInt(data.pages), page: parseInt(data.page) });
-      }.bind(this),
-      error: function(xhr, status, error) {
-        alert('Cannot sort events: ', status, xhr, error);
-      }
-    });
+    this.getDataFromApi(undefined, field_name, direction, undefined);
   },
 
   handleChangePage: function(page) {
-    this.getDataFromApi(page);
+    this.getDataFromApi(undefined, undefined, undefined, page);
   },
 
   render: function() {
