@@ -7,6 +7,8 @@ module Api
       rel = rel.where('name LIKE ? OR place LIKE ? OR description LIKE ?', "%#{query}%", "%#{query}%", "%#{query}%") unless query.blank?
       render json: {
         events: rel.order(sort_by + ' ' + direction).limit(per_page).offset((page - 1) * per_page),
+        sort_by: sort_by,
+        direction: direction,
         page: page,
         pages: (rel.count / per_page).to_i + (rel.count % per_page > 0 ? 1 : 0)
       }

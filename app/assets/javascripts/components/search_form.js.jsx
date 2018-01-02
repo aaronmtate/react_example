@@ -5,9 +5,9 @@ var SearchForm = createReactClass({
 
     $.ajax({
       url: '/api/events',
-      data: { query: query },
+      data: { query: query, sort_by: this.props.sort_by, direction: this.props.direction, page: this.props.page },
       success: function(data) {
-        self.props.handleSearch(data);
+        self.props.handleSearch(data, query);
       },
       error: function(xhr, status, error) {
         alert('Search error: ', status, xhr, error);

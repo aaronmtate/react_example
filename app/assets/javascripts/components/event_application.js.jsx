@@ -1,6 +1,6 @@
 var EventApplication = createReactClass({
   getInitialState: function() {
-    return { events: [], sort_by: 'event_date', direction: 'asc', page: 1, pages: 0 };
+    return { events: [], query: '', sort_by: 'event_date', direction: 'asc', page: 1, pages: 0 };
   },
 
   componentDidMount: function() {
@@ -11,9 +11,9 @@ var EventApplication = createReactClass({
     var self = this;
     $.ajax({
       url: '/api/events',
-      data: { page: page },
+      data: { query: this.state.query, sort_by: this.state.sort_by, direction: this.state.direction, page: page },
       success: function(data) {
-        self.setState({ events: data.events, pages: parseInt(data.pages), page: parseInt(data.page) });
+        self.setState({ events: data.events, sort_by: data.sort_by, direction: data.direction, pages: parseInt(data.pages), page: parseInt(data.page) });
       },
       error: function(xhr, status, error) {
         alert('Cannot get data from API: ', status, xhr, error);
@@ -21,8 +21,8 @@ var EventApplication = createReactClass({
     });
   },
 
-  handleSearch: function(data) {
-    this.setState({ events: data.events, pages: parseInt(data.pages), page: parseInt(data.page) });
+  handleSearch: function(data, query) {
+    this.setState({ events: data.events, query: query, sort_by: data.sort_by, direction: data.direction, pages: parseInt(data.pages), page: parseInt(data.page) });
   },
 
   handleAdd: function(event) {
@@ -47,10 +47,10 @@ var EventApplication = createReactClass({
 
     $.ajax({
       url: '/api/events',
-      data: { sort_by: field_name, direction: direction },
+      data: { query: this.state.query, sort_by: field_name, direction: direction, page: this.state.page },
       method: 'GET',
       success: function(data) {
-        this.setState({ events: data.events, sort_by: field_name, direction: direction });
+        this.setState({ events: data.events, sort_by: data.sort_by, direction: data.direction, pages: parseInt(data.pages), page: parseInt(data.page) });
       }.bind(this),
       error: function(xhr, status, error) {
         alert('Cannot sort events: ', status, xhr, error);
