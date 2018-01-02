@@ -8,7 +8,8 @@ var EventApplication = createReactClass({
   },
 
   getDataFromApi: function(query, sort_by, direction, page) {
-    query = query || this.state.query;
+    if (query === undefined)
+      query = this.state.query; // Empty string should be treated differently from undefined here.
     sort_by = sort_by || this.state.sort_by;
     direction = direction || this.state.direction;
     page = page || this.state.page;
