@@ -21,8 +21,17 @@ var EventApplication = createReactClass({
     });
   },
 
-  handleSearch: function(data, query) {
-    this.setState({ events: data.events, query: query, sort_by: data.sort_by, direction: data.direction, pages: parseInt(data.pages), page: parseInt(data.page) });
+  handleSearch: function(query) {
+    $.ajax({
+      url: '/api/events',
+      data: { query: query, sort_by: this.state.sort_by, direction: this.state.direction, page: this.state.page },
+      success: function(data) {
+        this.setState({ events: data.events, query: query, sort_by: data.sort_by, direction: data.direction, pages: parseInt(data.pages), page: parseInt(data.page) });
+      }.bind(this),
+      error: function(xhr, status, error) {
+        alert('Search error: ', status, xhr, error);
+      }
+    });
   },
 
   handleAdd: function(event) {
